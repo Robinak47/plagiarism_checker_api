@@ -36,7 +36,7 @@ def add_links_to_html_table(html_path: str) -> None:
 
     with open(html_path, encoding="utf-8") as html:
         soup = Bs(html, "html.parser")
-        file_ind = 0  # Cursor on file number for the naming of html files
+        file_ind = -1  # Cursor on file number for the naming of html files
 
         for td_tag in soup.findAll("td"):  # Retrieve all data celss from html table in path
             if is_float(td_tag.text):  # If td is not filename or -1

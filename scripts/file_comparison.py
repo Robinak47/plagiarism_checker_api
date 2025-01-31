@@ -169,6 +169,8 @@ def specific_compare(input_file: str, in_dir: str, out_dir: str, block_size: int
     # Process files in the directory
     for file in tqdm(files, desc="Processing Files"):
         file_path = path.join(in_dir, file)
+        if file == path.basename(input_file):
+            continue
         try:
             file_text = file_extension_call(file_path)
             if file_text:
@@ -202,8 +204,6 @@ def specific_compare(input_file: str, in_dir: str, out_dir: str, block_size: int
                 papers_comparison(
                     results_directory, i, input_text, text, (path.basename(input_file), filenames[i]), block_size
                 )
-            else:
-                similarity_scores[i].append(-1)  # Append a placeholder (e.g., -1) for self-comparison
         except Exception as e:
             print(f"Error comparing {path.basename(filenames[i])}: {str(e)}")
             similarity_scores[i].append(-1)  # In case of error, append a placeholder
@@ -214,7 +214,7 @@ def specific_compare(input_file: str, in_dir: str, out_dir: str, block_size: int
     print(similarity_scores)
     
     try:
-        results_to_html(similarity_scores, filenames, results_directory)
+       results_to_html(similarity_scores, filenames, results_directory)
     except Exception as e:
         raise RuntimeError(f"Error generating HTML report: {str(e)}")
     
